@@ -7,10 +7,10 @@ public class WorldBorder : MonoBehaviour
     float time = 0; // Initialize the damage dealing timer
     float damage = 1; // The base amount of damage while drowning
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         // Check if the colliding object is the player
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.name == "Player")
         {
             time += Time.deltaTime; // Increment the timer with the time passed since the last frame
 
@@ -18,22 +18,23 @@ public class WorldBorder : MonoBehaviour
             if (time >= damageInterval)
             {
                 PlayerStats playerStats = other.GetComponent<PlayerStats>();
-                if (playerStats != null)
-                {
-                    playerStats.health -= damage; // Deal damage to the player
-                    damage *= 2; // Increase the damage for the next tick (exponential increase)
-                    time = 0; // Reset the timer
-                }
+                
+                playerStats.health -= damage; // Deal damage to the player
+                damage *= 2; // Increase the damage for the next tick (exponential increase)
+                time = 0; // Reset the timer
+
+                print(damage);
             }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         // Check if the colliding object is the player
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.name == "Player")
         {
             damage = 1; // Reset the damage back to its base value
+            print(damage);
         }
     }
 }
